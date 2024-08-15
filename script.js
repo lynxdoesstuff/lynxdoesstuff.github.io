@@ -1,5 +1,5 @@
 const canvas = document.createElement('canvas');
-canvas.className = 'particle-canvas'; // Add this line
+canvas.className = 'particle-canvas';
 const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
@@ -17,6 +17,14 @@ window.addEventListener('mousemove', (event) => {
   mouse.y = event.clientY;
 });
 
+// Handle window resize
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  // Reinitialize particles to fit the new canvas size
+  init();
+});
+
 class Particle {
   constructor(x, y, size, color, directionX, directionY) {
     this.x = x;
@@ -25,23 +33,19 @@ class Particle {
     this.color = color;
     this.directionX = directionX;
     this.directionY = directionY;
-    this.opacity = 1;
   }
 
-  // Calculate distance between particle and mouse
   distance() {
     const dx = mouse.x - this.x;
     const dy = mouse.y - this.y;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  // Update particle position and repel if close to mouse
   update() {
     const distance = this.distance();
 
     // Check if the particle is close to the mouse
     if (distance < 100) {
-      // Repel particle
       const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
       this.directionX = -Math.cos(angle);
       this.directionY = -Math.sin(angle);
@@ -67,6 +71,7 @@ class Particle {
 }
 
 function init() {
+  particles.length = 0; // Clear the existing particles
   for (let i = 0; i < 100; i++) {
     let size = Math.random() * 5 + 1;
     let x = Math.random() * canvas.width;
