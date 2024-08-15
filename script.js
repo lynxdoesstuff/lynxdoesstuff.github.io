@@ -37,33 +37,7 @@ class Particle {
   }
 
   update() {
-    this.x += this.directionX;
-    this.y += this.directionY;
-    this.draw();
-  }
-}
-
-function init() {
-  for (let i = 0; i < 100; i++) {
-    let size = Math.random() * 5 + 1;
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
-    let directionX = Math.random() * 2 - 1;
-    let directionY = Math.random() * 2 - 1;
-    let color = 'white';
-
-    particles.push(new Particle(x, y, size, color, directionX, directionY));
-  }
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = 0; i < particles.length; i++) {
-    particles[i].update();
-  }
-}
-
-init();
-animate();
+    if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+      this.directionX = -this.directionX;
+    }
+    if (this.y + this.size > canvas
