@@ -60,6 +60,7 @@ class Particle {
       this.opacity -= 0.01;
     }
 
+
     this.draw();
   }
 }
