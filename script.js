@@ -40,4 +40,12 @@ class Particle {
     if (this.x + this.size > canvas.width || this.x - this.size < 0) {
       this.directionX = -this.directionX;
     }
-    if (this.y + this.size > canvas
+    if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+      this.directionY = -this.directionY;
+    }
+    this.x += this.directionX;
+    this.y += this.directionY;
+    // Add a console.log statement to track the particle's position
+    console.log(`Particle x: ${this.x}, y: ${this.y}`);
+  }
+}
