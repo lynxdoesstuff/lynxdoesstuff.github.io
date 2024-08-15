@@ -42,24 +42,26 @@ class Particle {
   }
 
   update() {
-    const distance = this.distance();
+  const distance = this.distance();
 
-    // Check if the particle is close to the mouse
-    if (distance < 100) {
-      const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
-      this.directionX = -Math.cos(angle);
-      this.directionY = -Math.sin(angle);
-    }
-
-    this.x += this.directionX;
-    this.y += this.directionY;
-
-    // Ensure particles stay within bounds
-    if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
-    if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
-
-    this.draw();
+  // Check if the particle is close to the mouse
+  if (distance < 100) {
+    // Increase the repulsion strength by adjusting this factor
+    const repulsionStrength = 2; // Adjust this value for stronger repulsion
+    const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+    this.directionX = -Math.cos(angle) * repulsionStrength;
+    this.directionY = -Math.sin(angle) * repulsionStrength;
   }
+
+  this.x += this.directionX;
+  this.y += this.directionY;
+
+  // Ensure particles stay within bounds
+  if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
+  if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
+
+  this.draw();
+}
 
   draw() {
     ctx.fillStyle = this.color;
