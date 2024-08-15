@@ -62,7 +62,7 @@ class Particle {
 
   this.draw();
 }
-
+  
   draw() {
     ctx.fillStyle = this.color;
     ctx.beginPath();
