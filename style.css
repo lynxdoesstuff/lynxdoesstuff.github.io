@@ -1,0 +1,39 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: black;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 50;
+  font-size: 72px;
+}
+h2 {
+  color: white;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 50;
+  font-size: 35px;
+}
+button {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 5px;
+  transition: all 0.50s ease;
+  border-radius: 20px;
+  font-size: 50px;
+  display: block;
+  margin: 0 auto;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
