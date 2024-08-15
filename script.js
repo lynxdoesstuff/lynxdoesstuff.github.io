@@ -1,4 +1,5 @@
 const canvas = document.createElement('canvas');
+canvas.className = 'particle-canvas'; // Add this line
 const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
