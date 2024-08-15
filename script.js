@@ -33,6 +33,7 @@ class Particle {
     this.color = color;
     this.directionX = directionX;
     this.directionY = directionY;
+    this.initialSpeed = Math.sqrt(directionX * directionX + directionY * directionY); // Calculate initial speed
   }
 
   distance() {
@@ -42,27 +43,44 @@ class Particle {
   }
 
   update() {
-  const distance = this.distance();
+    const distance = this.distance();
 
-  // Check if the particle is close to the mouse
-  if (distance < 100) {
-    // Increase the repulsion strength by adjusting this factor
-    const repulsionStrength = 2; // Adjust this value for stronger repulsion
-    const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
-    this.directionX = -Math.cos(angle) * repulsionStrength;
-    this.directionY = -Math.sin(angle) * repulsionStrength;
+    // Check if the particle is close to the mouse
+    if (distance < 100) {
+      // Calculate an acceleration factor based on the distance
+      const acceleration = (100 - distance) / 100; // Normalized factor between 0 and 1
+      const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+
+      // Accelerate away from the mouse
+      this.directionX += Math.cos(angle) * acceleration;
+      this.directionY += Math.sin(angle) * acceleration;
+    } else {
+      // Gradually slow down to initial speed when outside AOE
+      const speed = Math.sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
+      const dampingFactor = 0.98; // Adjust this value for more or less damping
+      this.directionX *= dampingFactor;
+      this.directionY *= dampingFactor;
+
+      // Ensure speed does not drop below initial speed
+      const currentSpeed = Math.sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
+      if (currentSpeed < this.initialSpeed) {
+        const angle = Math.atan2(this.directionY, this.directionX);
+        this.directionX = Math.cos(angle) * this.initialSpeed;
+        this.directionY = Math.sin(angle) * this.initialSpeed;
+      }
+    }
+
+    // Update particle position
+    this.x -= this.directionX; // Note the negative sign to move away
+    this.y -= this.directionY; // Note the negative sign to move away
+
+    // Ensure particles stay within bounds
+    if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
+    if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
+
+    this.draw();
   }
-
-  this.x += this.directionX;
-  this.y += this.directionY;
-
-  // Ensure particles stay within bounds
-  if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
-  if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
-
-  this.draw();
 }
-  
   draw() {
     ctx.fillStyle = this.color;
     ctx.beginPath();
