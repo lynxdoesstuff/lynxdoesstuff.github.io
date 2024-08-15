@@ -40,3 +40,10 @@ button {
 button:hover {
   transform: scale(1.1);
 }
+
+.particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
