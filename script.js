@@ -39,28 +39,6 @@ class Particle {
   update() {
     this.x += this.directionX;
     this.y += this.directionY;
-
-    // Interactivity
-    const dx = mouse.x - this.x;
-    const dy = mouse.y - this.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < 100) {
-      this.size = 20;
-      this.opacity = 0.5;
-    } else {
-      this.size = 5;
-      this.opacity = 1;
-    }
-
-    // Fade out
-    if (this.opacity < 0.1) {
-      this.opacity = 0;
-    } else {
-      this.opacity -= 0.01;
-    }
-
-
     this.draw();
   }
 }
