@@ -37,6 +37,7 @@ class Particle {
   }
 
   update() {
+    // Bounce off the edges of the canvas
     if (this.x + this.size > canvas.width || this.x - this.size < 0) {
       this.directionX = -this.directionX;
     }
