@@ -3,15 +3,20 @@ const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+canvas.style.position = 'absolute';
+canvas.style.zIndex = '-1';  // Ensures canvas is behind other elements
+
 const particles = [];
 const mouse = {
   x: null,
   y: null,
 };
+
 window.addEventListener('mousemove', (event) => {
   mouse.x = event.clientX;
   mouse.y = event.clientY;
 });
+
 class Particle {
   constructor(x, y, size, color, directionX, directionY) {
     this.x = x;
@@ -22,6 +27,7 @@ class Particle {
     this.directionY = directionY;
     this.opacity = 1;
   }
+
   draw() {
     ctx.fillStyle = this.color;
     ctx.beginPath();
@@ -29,12 +35,23 @@ class Particle {
     ctx.closePath();
     ctx.fill();
   }
+
   update() {
+    // Reverse direction if particle hits a border
+    if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+      this.directionX = -this.directionX;
+    }
+    if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+      this.directionY = -this.directionY;
+    }
+
     this.x += this.directionX;
     this.y += this.directionY;
+
     this.draw();
   }
 }
+
 function init() {
   for (let i = 0; i < 100; i++) {
     let size = Math.random() * 5 + 1;
@@ -46,6 +63,7 @@ function init() {
     particles.push(new Particle(x, y, size, color, directionX, directionY));
   }
 }
+
 function animate() {
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -53,5 +71,6 @@ function animate() {
     particles[i].update();
   }
 }
+
 init();
 animate();
