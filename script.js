@@ -11,13 +11,12 @@ const mouse = {
   y: null,
 };
 
-// Update mouse position on mousemove
 window.addEventListener('mousemove', (event) => {
   mouse.x = event.clientX;
   mouse.y = event.clientY;
 });
 
-// Handle window resize
+
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -45,23 +44,23 @@ class Particle {
   update() {
     const distance = this.distance();
 
-    // Check if the particle is close to the mouse
+
     if (distance < 100) {
-      // Calculate an acceleration factor based on the distance
-      const acceleration = (100 - distance) / 100; // Normalized factor between 0 and 1
+      
+      const acceleration = (100 - distance) / 100;
       const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
 
-      // Accelerate away from the mouse
+     
       this.directionX += Math.cos(angle) * acceleration;
       this.directionY += Math.sin(angle) * acceleration;
     } else {
-      // Gradually slow down to initial speed when outside AOE
+    
       const speed = Math.sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
-      const dampingFactor = 0.98; // Adjust this value for more or less damping
+      const dampingFactor = 0.98;
       this.directionX *= dampingFactor;
       this.directionY *= dampingFactor;
 
-      // Ensure speed does not drop below initial speed
+    
       const currentSpeed = Math.sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
       if (currentSpeed < this.initialSpeed) {
         const angle = Math.atan2(this.directionY, this.directionX);
@@ -70,11 +69,11 @@ class Particle {
       }
     }
 
-    // Update particle position
-    this.x -= this.directionX; // Note the negative sign to move away
-    this.y -= this.directionY; // Note the negative sign to move away
+    
+    this.x -= this.directionX; 
+    this.y -= this.directionY; 
 
-    // Ensure particles stay within bounds
+    
     if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
     if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
 
@@ -91,7 +90,7 @@ class Particle {
 }
 
 function init() {
-  particles.length = 0; // Clear the existing particles
+  particles.length = 0; 
   for (let i = 0; i < 100; i++) {
     let size = Math.random() * 5 + 1;
     let x = Math.random() * canvas.width;
@@ -111,7 +110,6 @@ function animate() {
   }
 }
 
-// Initialize particles and start animation
 init();
 animate();
 
